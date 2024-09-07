@@ -1,0 +1,157 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <div>
+        <div class="slds-builder-header_container">
+            <header class="slds-builder-header">
+                <div class="slds-builder-header__item">
+                    <a href="#" class="slds-builder-header__item-action" title="Back">
+                        <lightning-icon 
+                          icon-name="utility:back" 
+                          alternative-text="Back" 
+                          size="xx-small" 
+                          title="back"
+                          variant="inverse"
+                          onclick={handleBack}
+                        ></lightning-icon>
+                    </a>
+                </div>
+                <div class="slds-builder-header__item">
+                    <div class="slds-builder-header__item-label slds-media slds-media_center">
+                        <div class="slds-media__figure">
+                            <lightning-icon 
+                              icon-name="utility:builder" 
+                              alternative-text={diagramName}
+                              size="xx-small" 
+                              title={diagramName}
+                              variant="inverse"
+                            ></lightning-icon>
+                        </div>
+                        <div class="slds-media__body">{diagramName}</div>
+                    </div>
+                </div>
+                <div class="slds-builder-header__item slds-builder-header__utilities">
+                    <div class="slds-builder-header__utilities-item">
+                        <a href="#" class="slds-builder-header__item-action slds-media slds-media_center">
+                            <span class="slds-media__figure">
+                                <lightning-icon 
+                                  icon-name="utility:settings" 
+                                  alternative-text="settings" 
+                                  size="xx-small" 
+                                  title="settings"
+                                  variant="inverse"
+                                ></lightning-icon>
+                            </span>
+                            <span class="slds-media__body">
+                                <span class="slds-truncate" title="Link">Settings</span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="slds-builder-header__utilities-item">
+                        <a href="#" class="slds-builder-header__item-action slds-media slds-media_center">
+                            <div class="slds-media__figure">
+                                <lightning-icon 
+                                  icon-name="utility:help" 
+                                  alternative-text="help" 
+                                  size="xx-small" 
+                                  title="help"
+                                  variant="inverse"
+                                ></lightning-icon>
+                            </div>
+                            <div class="slds-media__body">Help</div>
+                        </a>
+                    </div>
+                </div>
+            </header>
+            <div class="slds-builder-toolbar" role="toolbar">            
+                <div class="slds-builder-toolbar__item-group" aria-label="Canvas Actions">
+                    <lightning-button-icon 
+                      icon-name="utility:toggle_panel_left"
+                      alternative-text="toggle panel left"
+                      type="button"
+                      variant="border"
+                      onclick={handleClickTogglePanel}
+                    ></lightning-button-icon>
+                </div>
+                <div class="slds-builder-toolbar__item-group" aria-label="Canvas Actions">
+                    <lightning-button-icon icon-name="utility:settings" alternative-text="canvas settings" type="button"
+                        variant="border"></lightning-button-icon>
+
+                    <lightning-button-group>
+                        <lightning-button-icon icon-name="utility:undo" alternative-text="undo" type="button"
+                            variant="border-filled" onclick={handleUndo}></lightning-button-icon>
+                        <lightning-button-icon icon-name="utility:redo" alternative-text="redo" type="button"
+                            variant="border-filled" onclick={handleRedo}></lightning-button-icon>
+                    </lightning-button-group>
+                </div>
+                
+                <div class="slds-builder-toolbar__item-group slds-p-horizontal_large" aria-label="Edit actions">
+                    <template lwc:if={showArrowCombobox}>
+                        <lightning-formatted-text class="slds-p-horizontal_xx-small" value="From arrow:"></lightning-formatted-text>
+                        <lightning-combobox
+                            name="fromArrow"
+                            label="From Arrow"
+                            value={fromArrowValue}
+                            options={fromArrowComboboxOptions}
+                            onchange={handleChangeFromArrow}
+                            variant="label-hidden"
+                        ></lightning-combobox>
+
+                        <lightning-formatted-text class="slds-p-horizontal_xx-small" value="To arrow:"></lightning-formatted-text>
+                        <lightning-combobox
+                            name="toArrow"
+                            label="To Arrow"
+                            value={toArrowValue}
+                            options={toArrowComboboxOptions}
+                            onchange={handleChangeToArrow}
+                            variant="label-hidden"
+                        ></lightning-combobox>
+                    </template>                                
+                </div>
+                <div class="slds-builder-toolbar__actions" aria-label="Document actions">
+                    <template lwc:if={showSaved}>
+                        <button class="slds-button slds-p-horizontal_small" aria-live="polite">Saved!</button>
+                    </template>
+                    <lightning-button label="Generate with GPT"
+                      variant="neutral" icon-name="utility:sparkles" onclick={handleGenerateWithGpt} class="slds-p-right_small"
+                    ></lightning-button>
+                    <lightning-button label="Save" variant="brand" onclick={handleSave}></lightning-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <template lwc:if={showGptModal}>
+        <div class="custom-modal">
+            <section role="dialog" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <span class="slds-modal__close">
+                            <lightning-icon icon-name="utility:close" variant="inverse" alternative-text="close" onclick={handleClickCancel}></lightning-icon>
+                        </span>
+                        <h2 class="slds-text-heading_medium slds-hyphenate">Generate with GPT</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <lightning-textarea                   
+                          max-length="1000"
+                          name="instruction" 
+                          label="Instruction" 
+                          placeholder="type here..."
+                          variant="standard"
+                        ></lightning-textarea>
+                        <lightning-input
+                          class="slds-m-top_medium include-context" 
+                          type="toggle" 
+                          label="Include context?" 
+                          name="context"
+                        ></lightning-input>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button label="Cancel" title="Cancel" onclick={handleClickCancel} class="slds-m-right_small"></lightning-button>
+                        <lightning-button variant="Brand" label="Generate" title="Generate" onclick={handleConfirmGeneration} ></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+</template>

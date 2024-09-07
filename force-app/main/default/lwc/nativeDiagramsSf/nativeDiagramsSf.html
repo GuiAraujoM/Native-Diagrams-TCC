@@ -1,0 +1,25 @@
+<template>
+    <template lwc:if={isLoading}>
+        <lightning-spinner alternative-text="Loading" size="large" variant="base"></lightning-spinner>
+    </template>
+    <lightning-layout vertical-align="stretch" multiple-rows="true" class="c-main-container">
+        <lightning-layout-item flexibility="auto" padding="around-small" size="12" class="c-header slds-is-relative">
+            <c-native-diagrams-header class="slds-is-absolute" 
+                ontogglepanel={handleTogglepanel} 
+                onundo={handleUndo} 
+                onredo={handleRedo} 
+                onsave={handleSave}
+                ongeneratewithgpt={handleGenerateWithGpt}>
+            </c-native-diagrams-header>
+        </lightning-layout-item>
+        <lightning-layout-item flexibility="auto" size="12" class="c-body">
+            <lightning-layout horizontal-align="start" class="c-canvas-container">
+                <c-navite-diagrams-toolbox class="c-toolbox">                    
+                </c-navite-diagrams-toolbox>           
+                <lightning-layout-item flexibility="auto">
+                    <c-native-diagrams-canvas onselectedlink={handleSelectedLink}></c-native-diagrams-canvas>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

@@ -1,0 +1,21 @@
+<template>
+    <lightning-card icon-name="custom:custom62" class="slds-card_boundary main-card" variant="base">
+      <!-- Title -->
+      <div slot="title">
+        Diagrams
+      </div>
+  
+      <!-- Action bar -->
+      <div slot="actions">
+        <!-- <lightning-button variant="brand" label="Enviar pendências ao PI6" type="button" onclick={handleClickEnviar}
+          icon-name="utility:send" icon-position="left" class="slds-m-right_small" disabled={desabilitarMenu}></lightning-button> -->
+        <lightning-button-icon icon-name="utility:refresh" size="medium" type="button" variant="border-filled"
+          onclick={handleClickRefresh} class="slds-m-right_small" disabled={disableMenu}></lightning-button-icon>
+      </div>
+  
+      <!-- Table -->
+      <div class="slds-border_top slds-border_bottom slds-p-vertical_small table">
+        <c-ndsf_-custom-datatable records={records} columns={columns} draftvalues={draftValues} keyfield="Id" onrowaction={handleRowAction} onsave={handleClickSalvarDatatable} loading={loading}></c-ndsf_-custom-datatable>
+      </div>
+    </lightning-card>
+  </template>

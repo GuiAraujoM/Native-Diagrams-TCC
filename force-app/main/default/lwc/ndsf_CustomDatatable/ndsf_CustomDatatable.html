@@ -1,0 +1,66 @@
+<template>  
+  <div class="slds-is-relative">
+    <!-- If loading show Spinner -->
+    <div lwc:if={loading}>
+      <lightning-spinner variant="brand" alternative-text="loading" size="size"></lightning-spinner> 
+    </div>
+     
+
+    <lightning-layout horizontal-align="center" multiple-rows>
+      <!-- Body -->
+      <lightning-layout-item size="12" padding="around-small">
+        <!-- Table -->      
+        <lightning-layout horizontal-align="spread" multiple-rows>
+          <lightning-layout-item size="9">
+            <div class="custom-box">
+              <span>Show</span>
+              <lightning-combobox class="combobox-inline" name="Número de registros" value={recordsPerPage}
+                placeholder={recordsPerPage} options={recordsPerPageOptions}
+                onchange={handleChangeRecordsPerPage}></lightning-combobox>
+              <span>records per page.</span>
+            </div>
+          </lightning-layout-item>
+          <lightning-layout-item size="3">
+            <div class="custom-box">
+              <div onkeyup={handleKeyUp}>
+                <lightning-input type="search" name="search" placeholder="Search..." label="Search"
+                  onchange={handleSearch}></lightning-input>
+              </div>
+            </div>
+          </lightning-layout-item>
+          <lightning-layout-item size="12" class="slds-p-vertical_small">
+            <c-ndsf_-extended-datatable columns={columns} data={displayedRecords} key-field={keyfield} draft-values={draftvalues} onrowaction={handleRowAction} onsave={handleSaveDatatable}
+              onsort={handleSort} sorted-by={sortby} sorted-direction={sortdirection} row-number-offset={rowNumberOffset} hide-checkbox-column show-row-number-column></c-ndsf_-extended-datatable>
+          </lightning-layout-item>
+          <template lwc:if={noRecords}>
+            <lightning-layout-item size="12">
+              <div
+                class="slds-text-heading_small slds-align_absolute-center no-records">
+                No diagrams to display</div>
+            </lightning-layout-item>
+          </template>
+        </lightning-layout>
+      </lightning-layout-item>
+
+      <!-- Footer -->
+      <lightning-layout-item size="12" padding="horizontal-small">
+        <lightning-layout horizontal-align="spread">
+          <lightning-layout-item size="6">
+            Total: {totalRecords} |
+            Page <input class="current-page" type="text" disabled value={currentPage}> of {totalPages}
+          </lightning-layout-item>
+          <lightning-layout-item size="6">
+            <lightning-layout horizontal-align="end">
+              <span class="slds-grid_align-end">
+                <lightning-button variant="neutral" title="Previous" label="Previous" onclick={handleClickPreviousPage}
+                  disabled={disablePreviousPage}></lightning-button>&nbsp;
+                <lightning-button variant="neutral" title="Next" label="Next" onclick={handleClickNextPage}
+                  disabled={disableNextPage}></lightning-button>
+              </span>
+            </lightning-layout>
+          </lightning-layout-item>
+        </lightning-layout>
+      </lightning-layout-item>
+    </lightning-layout>
+  </div>
+</template>

@@ -1,0 +1,56 @@
+<template>    
+    <div class="slds-panel slds-size_medium slds-panel_docked slds-panel_docked-left slds-border_right slds-is-open">
+        <div class="slds-panel__header">
+            <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate" title="Toolbox">Toolbox
+            </h2>
+        </div>
+        <div class="slds-panel__body">
+            <lightning-accordion allow-multiple-sections-open active-section-name="Tools">
+                <lightning-accordion-section name="Tools" label="Tools">
+                    <template lwc:if={nodes}>
+                        <lightning-layout multiple-rows>
+                            <template for:each={nodes} for:item="node">
+                                <lightning-layout-item key={node.key} data-key={node.key} data-type="node" size="12" padding="around-small" draggable="true"
+                                    ondragstart={handleDragStart}>
+                                    <lightning-layout multiple-rows>
+                                        <lightning-layout-item size="2">
+                                            <lightning-icon icon-name={node.icon} size="medium"></lightning-icon>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="9">
+                                            <div>{node.label}</div>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="1">
+                                            <lightning-icon icon-name="utility:drag_and_drop" size="small"></lightning-icon>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+                        </lightning-layout>
+                    </template>
+                </lightning-accordion-section>
+                <!-- <lightning-accordion-section name="Links" label="Links">
+                    <template lwc:if={links}>
+                        <lightning-layout multiple-rows>
+                            <template for:each={links} for:item="link">
+                                <lightning-layout-item key={link.key} data-key={link.key} data-type="link" size="12" padding="around-small" draggable="true"
+                                    ondragstart={handleDragStart}>
+                                    <lightning-layout multiple-rows>
+                                        <lightning-layout-item size="2">
+                                            <lightning-icon icon-name={link.icon} size="x-small"></lightning-icon>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="9">
+                                            <div>{link.label}</div>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="1">
+                                            <lightning-icon icon-name="utility:drag_and_drop" size="small"></lightning-icon>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+                        </lightning-layout>
+                    </template>
+                </lightning-accordion-section> -->
+            </lightning-accordion>            
+        </div>
+    </div>
+</template>

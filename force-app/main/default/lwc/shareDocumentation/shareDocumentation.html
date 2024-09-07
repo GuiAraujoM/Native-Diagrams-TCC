@@ -1,0 +1,80 @@
+<template>
+    <div class="slds-is-relative">
+        <template lwc:if={loading}>
+            <lightning-spinner class="slds-is-absolute" alternative-text="Loading" size="small"
+                variant="base"></lightning-spinner>
+        </template>
+        <header class="slds-modal__header">
+            <h2 class="slds-text-heading_medium slds-hyphenate">Share</h2>
+        </header>
+        <div class="slds-m-around_medium">
+            <lightning-layout horizontal-align="start" multiple-rows="true" vertical-align="start">
+                <lightning-layout-item flexibility="auto" size="2">
+                    <lightning-combobox 
+                        label="Type" 
+                        name="type" 
+                        options={typeComboboxOptions} 
+                        onchange={handleChangeTypeCombobox}
+                        placeholder="Select Type..." 
+                        value={typeComboboxValue} 
+                        variant="standard"
+                        disabled={disableInputs}>
+                    </lightning-combobox>
+                </lightning-layout-item>
+                <lightning-layout-item padding="horizontal-small" flexibility="auto" size="10">
+                    <lightning-record-picker 
+                        label={typeComboboxValue} 
+                        placeholder={pickerPlaceholder}
+                        object-api-name={typeComboboxValue}
+                        filter={filter}
+                        value={pickedValueId}
+                        onchange={handleChangeRecordPicker}                        
+                        disabled={disableInputs}>
+                    </lightning-record-picker>
+                    <div class="slds-listbox_selection-group slds-is-expanded">
+                        <ul class="slds-listbox slds-listbox_horizontal">
+                            <template for:each={pickedValues} for:item="pickedValue">
+                                <li class="slds-listbox-item" key={pickedValue.Id}>
+                                    <lightning-pill label={pickedValue.Name} data-id={pickedValue.Id} onremove={handleRemove}>
+                                        <lightning-icon icon-name={pickedValue.Icon}></lightning-icon>
+                                    </lightning-pill>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>                  
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" size="3">
+                    <lightning-combobox 
+                        label="Access Level" 
+                        name="accessLevel"
+                        options={accessLevelOptions} 
+                        onchange={handleChangeAccessLevel} 
+                        value={accessLevelValue} 
+                        variant="standard" 
+                        required="true">
+                    </lightning-combobox>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" size="12">
+                    <template lwc:if={tableData}>
+                        <lightning-accordion active-section-name="Shared" class="slds-m-top_medium">
+                            <lightning-accordion-section name="Shared" label="Currently Shared">
+                                <lightning-datatable 
+                                    key-field="Id" 
+                                    data={tableData} 
+                                    columns={tableColumns} 
+                                    hide-checkbox-column="true"
+                                    onrowaction={handleTableAction}>
+                                </lightning-datatable>
+                            </lightning-accordion-section>
+                        </lightning-accordion>
+                    </template>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+        <footer class="slds-modal__footer">
+            <lightning-button label="Cancel" title="Cancel" onclick={handleCancel} class="slds-m-right_small"></lightning-button>
+            <lightning-button label="Save" variant="brand" onclick={handleSave} disabled={disableSave} type="button"></lightning-button>
+        </footer>
+
+    </div>
+</template>

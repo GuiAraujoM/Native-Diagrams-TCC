@@ -1,0 +1,8 @@
+.dropzone {
+    border: 1px dotted var(--slds-g-color-neutral-base-30, #3e3e3c);
+}
+
+.c-canvas-board {
+    height: 100%;
+    width: 100%;
+}

@@ -1,0 +1,18 @@
+.combobox-inline {
+    display: inline-block;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.current-page {
+    width: 25px;
+}
+
+.no-records {
+    height: 100px;
+}
+
+.spinner-container .slds-spinner_container{    
+    position: relative !important;
+    top: 20px !important;     
+}
