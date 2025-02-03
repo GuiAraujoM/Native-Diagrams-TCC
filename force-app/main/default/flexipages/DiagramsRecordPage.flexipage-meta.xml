@@ -73,6 +73,16 @@
                 <identifier>RecordModel_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.CreatedById</fieldItem>
+                <identifier>RecordCreatedByIdField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-9988c426-e9dc-4e2e-8ca4-b5acab79fb17</name>
         <type>Facet</type>
     </flexiPageRegions>

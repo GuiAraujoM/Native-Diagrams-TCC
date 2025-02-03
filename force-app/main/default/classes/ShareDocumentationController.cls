@@ -17,7 +17,7 @@ public with sharing class ShareDocumentationController {
         }
 
         //Sharing Diagram__c
-        Diagram__c[] diagramsList = [SELECT Id FROM Diagram__c WHERE Documentation__c = :recordId];
+        Diagram__c[] diagramsList = [SELECT Id FROM Diagram__c WHERE Documentation__c = :recordId AND CreatedById NOT IN :userOrGroupIdsList];
         Diagram__Share[] diagramShareList = new List<Diagram__Share>(); 
         Diagram__Share diagramShare;
         for(Diagram__c diagram : diagramsList){
@@ -44,10 +44,10 @@ public with sharing class ShareDocumentationController {
         if(String.isBlank(recordId)) throw new IllegalArgumentException('recordId cannot be null');
         if(String.isBlank(userOrGroupId)) throw new IllegalArgumentException('userOrGroupId cannot be null');
 
-        List<Documentation__Share> documentationShareToDelete = [SELECT Id FROM Documentation__Share WHERE ParentID = :recordId AND UserOrGroupId = :userOrGroupId];
+        List<Documentation__Share> documentationShareToDelete = [SELECT Id FROM Documentation__Share WHERE ParentID = :recordId AND UserOrGroupId = :userOrGroupId AND AccessLevel != 'All'];
         Set<Id> diagramsIds = new Map<Id,Diagram__c>([SELECT Id FROM Diagram__c WHERE Documentation__c = :recordId]).keySet();
         
-        List<Diagram__Share> diagramShareToDelete = [SELECT Id FROM Diagram__Share WHERE ParentID IN :diagramsIds AND UserOrGroupId = :userOrGroupId];
+        List<Diagram__Share> diagramShareToDelete = [SELECT Id FROM Diagram__Share WHERE ParentID IN :diagramsIds AND UserOrGroupId = :userOrGroupId AND AccessLevel != 'All'];
         
         delete documentationShareToDelete;
         delete diagramShareToDelete;

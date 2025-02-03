@@ -76,7 +76,7 @@ export default class ShareDocumentation extends LightningElement {
         this.accessLevelValue = event.detail.value;
     }
 
-    handleCancel(event) {
+    handleClose(event) {
         this.dispatchEvent(new CloseActionScreenEvent());
     }
 
@@ -94,8 +94,8 @@ export default class ShareDocumentation extends LightningElement {
                     message: 'Document shared successfully',
                     variant: 'success'
                 }));
+                this.pickedValues = [];
                 refreshApex(this.wiredRecordShareResult);
-                this.dispatchEvent(new CloseActionScreenEvent());
             }else{
                 console.log('error');
                 console.log(result.message); 
